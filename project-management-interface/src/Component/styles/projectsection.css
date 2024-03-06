@@ -62,6 +62,33 @@
     font-size: var(--subheader-font-size);
     margin-left: 10px;
 }
+.peron_filter{
+    position: relative;
+    cursor: pointer;
+}
+.person_filter_box{
+    position: absolute;
+    transition: all 2s;
+    top: 40px;
+    left: 0;
+    background-color: #fff;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    width: 250px;
+    z-index: 3;
+    padding: 10px 20px;
+}
+.person_filter_box h6{
+    color: var(--subheader-font-size);
+    font-weight: var(--header-font-weight);
+    font-size: var(--subheader-font-size);
+    margin-bottom: 15px;
+}
+.person_filter_box p{
+    cursor: pointer;
+    margin-left: 0;
+    font-size: 12px;
+    color: #aaa;
+}
 .project_members span{
     border-radius: 100%;
     padding:8px 12px;
@@ -70,33 +97,80 @@
     color: var(--blue-color);
     border: 2px solid #fff;
     background-color: var(--light-background-color);
+    margin-left: -8px;
+}
+.project_members span:first-child{
+    margin-left: 0;
 }
 .member_letter{
     position: relative;
     z-index: 2;
-    margin-left: -8px;
+  
 }
-.project_invite{
+.project_create_table_invite{
     display: flex;
     align-items: center;
 }
 .invite_btn{
     margin-left: 10px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+    position: relative;
 }
 .invite_btn p{
+    display: flex;
+    align-items: center;
     color: #bbb;
     font-size: var(--subheader-font-size);
     align-items: center;
+    cursor: pointer;
 }
 .invite_btn i{
     color: #bbb;
     margin-left: 3px;
     font-size: 16px;
 }
-.project_invite button{
+.invite_members{
+    position: absolute;
+    transition: all 2s;
+    right: 0;
+    width:300px;
+    top: 45px;
+    padding: 20px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    z-index: 6;
+    background-color: #fff;
+}
+.invite_members h5, .invite_members h6{
+    font-size: 14px;
+    font-weight: var(--header-font-weight);
+    color: var(--title-color);
+    margin-bottom: 1rem;
+}
+.invite_members h6{
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+.invite_members p{
+    font-size: 12px;
+}
+.invite_members input[type=text]{
+    width: 70%;
+    padding: 8px 8px;
+    border: var(--box-border);
+    font-size: 12px;
+
+}
+.invite_members input[type=text]::placeholder{
+    color: #ddd;
+}
+.invite_members input[type=submit]{
+    width: 24%;
+    padding:9px 8px;
+    color: var(--blue-color);
+    border: none;
+    text-transform: capitalize;
+    background-color: var(--light-background-color);
+}
+.project_create_table_invite button{
     padding: 8px 8px;
     width: 140px;
     border-radius: var(--round-border-radius);
@@ -106,9 +180,16 @@
     color: #fff;
     text-transform: capitalize;
     cursor: pointer;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 1s;
+}
+.project_invite button:hover{
+    background-color: inherit;
+    border: 1px solid var(--blue-color);
+    color: var(--blue-color);
 }
 .project_invite button i{
     margin-right: 6px;
@@ -144,17 +225,41 @@
     border-right: var(--box-border);
     text-transform: capitalize;
     line-height: 40px;
-    padding: 0 20px;
+    padding: 0 10px;
 }
-.project_table input{
-    border-right: var(--box-border);
-    border-bottom: none;
-    border-top: none;
-    border-left: none;
-   
+.field_name input{
+    width: 100%;
+    border: none;
+    height: 100%;
 }
-.field_name:first-child{
-    border-top-left-radius: 10px;
+.col_name_row{
+    position: relative;
+}
+
+.status{position: relative;cursor: pointer;}
+.status_feilds{
+    position: absolute;
+    left: 0;
+    top: 40px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    width: 100%;
+    display: none;
+}
+.status_feilds span{
+    display: block;
+}
+#Done{
+    background-color: #90ee9058;
+    color: green;
+}
+#ToDo{
+    background-color: #f9bfbf85;
+    color: red;
+}
+#InProgress{
+    background-color: var(--light-background-color);
+    color: var(--blue-color);
+    
 }
 .col_name{
     background-color: var(--light-background-color);
@@ -179,24 +284,41 @@
     margin-right:15px;
     position: absolute;
     left: 20px;
-    top: 10px
+    top: 10px;
+    cursor: pointer;
 }
 .table_task_row{position: relative;}
-.edit_task_box{
+
+.edit_task_box, .add-table-column{
     position: absolute;
     z-index: 3;
-    left: -160px;
     background-color: #fff;
-    padding:20px;
-    width: 100px;
+    padding:10px 20px;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    transition: all 1s;
 }
-.edit_task_box p{cursor: pointer;}
-.edit_task_box span{
+.edit_task_box{
+    left: -160px;
+    width: 100px;
+}
+ .add-table-column{
+    right: 0;
+    top: 40px;
+    width: 150px;
+  
+ }
+ .add-table-column h6{
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--title-color);
+    margin-bottom: 7px;
+ }
+.edit_task_box p,  .add-table-column p{cursor: pointer;}
+.edit_task_box span,  .add-table-column span{
     font-size: 13px;
     color: #bbb;
 }
-.edit_task_box i{
+.edit_task_box i,  .add-table-column i{
     color: var(--blue-color);
     margin-right: 10px;
 }
