@@ -4,6 +4,7 @@
 @import url("navbar.css");
 @import url("guide.css");
 @import url("createproject.css");
+@import url("projectsection.css");
 
 :root{
 --subheader-font-size:13px;
@@ -16,9 +17,10 @@
 --box-border:1px solid #ddd;
 --light-background-color:#eeeef9;
 --round-border-radius: 20px;
+--page-font-size:23px;
 }
 .container{
-    width: 80%;
+    width: 94%;
     margin: 0 auto;
 }
 .page-row{
