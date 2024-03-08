@@ -16,9 +16,11 @@
 --box-border:1px solid #ddd;
 --light-background-color:#eeeef9;
 --round-border-radius: 20px;
+--border-color: #ddd;
+--container-color: white;
 }
 .container{
-    width: 80%;
+    width: 40%;
     margin: 0 auto;
 }
 .page-row{
