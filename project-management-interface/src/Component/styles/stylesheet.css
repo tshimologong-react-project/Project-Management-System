@@ -36,3 +36,8 @@
     position: absolute;
     padding:0 20px;
 }
+.comments_size{
+    font-size: 14px;
+    color: var(--subheader-font-size);
+    font-weight: 500;
+}
