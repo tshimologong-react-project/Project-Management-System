@@ -3,7 +3,7 @@ p{
 }
 .guide-section{
     background-color: var(--container-color);
-    height: 100vh;
+    max-height: 100vh;
     margin: 15px auto;
     padding: 10px;
 }
@@ -53,6 +53,9 @@ flex-wrap: wrap;
     border-radius: var(--round-border-radius);
     padding: 10px;
 }
+.Cards_section .Cards .Card_Content{
+    margin: 25px;
+}
 .Cards_section .Cards.special{
     background-color: var(--border-color);
 }
@@ -94,7 +97,7 @@ flex-wrap: wrap;
     top: 50%;
     left: calc(14% + 90px);
     transform: translateY(-50%);
-    margin-top: 1rem;
+    margin-top: 2.5rem;
     min-width: 1rem;
   }
   .dashed-line-2 {
@@ -104,7 +107,7 @@ flex-wrap: wrap;
     top: 50%;
     left: calc(35% + 280px);
     transform: translateY(-50%);
-    margin-top: 1rem;
+    margin-top: 2.5rem;
     min-width: 1rem;
   }
   @media (max-width: 1900px) {
