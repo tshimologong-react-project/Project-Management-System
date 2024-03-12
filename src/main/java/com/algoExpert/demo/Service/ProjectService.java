@@ -20,6 +20,9 @@ public class ProjectService {
     @Autowired
     private TaskService taskService;
 
+    @Autowired
+    private TableService tableService;
+
 //  create project
     public Project createProject(Project project,Integer user_id)
     {
@@ -35,7 +38,7 @@ public class ProjectService {
         project.setMembersList(members);
 
 //      create a default table
-        taskService.createTable(project.getProject_id(), user_id);
+        tableService.createTable(project.getProject_id(), user_id);
 
         return projectRepository.save(savedProjects);
     }
