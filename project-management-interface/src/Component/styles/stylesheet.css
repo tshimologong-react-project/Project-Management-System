@@ -4,6 +4,7 @@
 @import url("navbar.css");
 @import url("guide.css");
 @import url("createproject.css");
+@import url("projectsection.css");
 
 :root{
 --subheader-font-size:13px;
@@ -16,11 +17,15 @@
 --box-border:1px solid #ddd;
 --light-background-color:#eeeef9;
 --round-border-radius: 20px;
---border-color: #ddd;
---container-color: white;
+
+/* --border-color: #ddd;
+--container-color: white; 
+  --page-font-size:23px;
+  */
 }
+
 .container{
-    width: 40%;
+    width: 94%;
     margin: 0 auto;
 }
 .page-row{
@@ -35,4 +40,9 @@
     background-color: #eee;
     position: absolute;
     padding:0 20px;
+}
+.comments_size{
+    font-size: 14px;
+    color: var(--subheader-font-size);
+    font-weight: 500;
 }
