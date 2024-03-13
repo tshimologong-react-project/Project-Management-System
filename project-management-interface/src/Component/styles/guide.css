@@ -17,7 +17,6 @@
     border-radius: var(--round-border-radius);
 }
 .Header_section h1{
-    font-size: 4rem;
     font-weight: var(--header-font-weight);
     font-family: Roboto, sans-serif;
     font-size: 35px;
