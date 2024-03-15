@@ -24,7 +24,7 @@ public class ProjectService {
     private TableService tableService;
 
 //  create project
-    public Project createProject(Project project,Integer user_id)
+    public Integer createProject(Project project,int user_id)
     {
 //      find user by id
         User user=userRepository.findById(user_id).get();
@@ -40,10 +40,16 @@ public class ProjectService {
 //      create a default table
         tableService.createTable(project.getProject_id(), user_id);
 
-        return projectRepository.save(savedProjects);
+        Project savedProject = projectRepository.save(savedProjects);
+        return savedProject.getProject_id();
     }
 
 //  get all projects
     public List<Project> getAllProjects(){return projectRepository.findAll(); }
+
+    //get one project
+    public Project findProject(int project_id){
+        return projectRepository.findById(project_id).get();
+    }
 
 }
