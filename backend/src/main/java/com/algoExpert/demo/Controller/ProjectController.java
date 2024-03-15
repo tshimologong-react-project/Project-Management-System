@@ -34,6 +34,10 @@ public class ProjectController {
     public Project getSingleProject(@PathVariable int project_id){
         return projectService.findProject(project_id);
     }
+    @DeleteMapping("/deleteProject/{project_id}")
+    public List<Project> deleteProject(@PathVariable int project_id){
+        return projectService.deleteProjectById(project_id);
+    }
 
 
 }

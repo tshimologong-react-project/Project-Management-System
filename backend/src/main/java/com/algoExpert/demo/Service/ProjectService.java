@@ -1,8 +1,12 @@
 package com.algoExpert.demo.Service;
 
 import com.algoExpert.demo.Entity.*;
+import com.algoExpert.demo.Repository.MemberRepository;
 import com.algoExpert.demo.Repository.ProjectRepository;
+import com.algoExpert.demo.Repository.TableRepository;
 import com.algoExpert.demo.Repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +20,12 @@ public class ProjectService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TableRepository tableRepository;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Autowired
     private TaskService taskService;
@@ -50,6 +60,26 @@ public class ProjectService {
     //get one project
     public Project findProject(int project_id){
         return projectRepository.findById(project_id).get();
+    }
+
+    @Transactional
+    public List<Project> deleteProjectById(Integer projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("Project with ID " + projectId + " not found"));
+
+        // Delete associated tables
+        for (Table table : project.getTables()) {
+            tableRepository.delete(table);
+        }
+
+        // Delete associated members
+        for (Member member : project.getMembersList()) {
+            memberRepository.delete(member);
+        }
+        // Now delete the project
+        projectRepository.delete(project);
+
+        return  projectRepository.findAll();
     }
 
 }
