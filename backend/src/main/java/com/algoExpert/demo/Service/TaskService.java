@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class TaskService {
      @Autowired
@@ -35,6 +37,8 @@ public class TaskService {
     private MemberRepository memberRepository;
 
 //    create new task
+
+
     public Table createTask(int member_id, int table_id){
 
         Table table = tableRepository.findById(table_id).get();
@@ -53,7 +57,6 @@ public class TaskService {
     public Table deleteTaskById(Integer taskId, Integer table_id) {
         Task storedTask = taskRepository.findById(taskId).orElse(null);
         Table table = tableRepository.findById(table_id).orElse(null);
-
             List<Comment> comments = storedTask.getComments();
             if (!comments.isEmpty()) {
                 for (Comment comment : comments) {
@@ -69,6 +72,22 @@ public class TaskService {
 //    get all tasks
     public List<Task> getAllTask(){
         return taskRepository.findAll();
+    }
+
+
+    public Task editTask(Task newTask,int task_id){
+        return   taskRepository.findById(newTask.getTask_id())
+                .map(existingTask ->{
+                    if (newTask != null){
+                        Optional.ofNullable(newTask.getTitle()).ifPresent(existingTask::setTitle);
+                        Optional.ofNullable(newTask.getDescription()).ifPresent(existingTask::setDescription);
+                        Optional.ofNullable(newTask.getStart_date()).ifPresent(existingTask::setStart_date);
+                        Optional.ofNullable(newTask.getEnd_date()).ifPresent(existingTask::setEnd_date);
+                        Optional.ofNullable(newTask.getStatus()).ifPresent(existingTask::setStatus);
+                        Optional.ofNullable(newTask.getPriority()).ifPresent(existingTask::setPriority);
+                    }
+                    return taskRepository.save(existingTask);
+                }).orElseThrow(() -> new IllegalArgumentException("Task with ID " + task_id + " not found"));
     }
 }
 
