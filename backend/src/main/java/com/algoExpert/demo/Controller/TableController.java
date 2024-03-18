@@ -1,7 +1,7 @@
 package com.algoExpert.demo.Controller;
 
 import com.algoExpert.demo.Entity.Project;
-import com.algoExpert.demo.Entity.Table;
+import com.algoExpert.demo.Entity.Tables;
 import com.algoExpert.demo.Service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +24,14 @@ public class TableController {
 
 //    get all tables
     @GetMapping("/getAllTables")
-    public List<Table> getAllTables() {
+    public List<Tables> getAllTables() {
     return tableService.getAllTables();
 }
+
+    @DeleteMapping("/deleteTable/{project_id}/{table_id}")
+    public List<Tables> deleteTable(@PathVariable Integer project_id, Integer table_id){
+        return tableService.deleteTable(project_id,table_id);
+    }
 
 //    update table
 //    @PutMapping("/updateTable/{id}")
