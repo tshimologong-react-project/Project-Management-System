@@ -80,6 +80,43 @@ function ProjectSection() {
         seteditedTask(oneProject.tables[tableIndex].tasks[taskIndex])
         if(columnName == "status"){sendEditedRow()}
     }
+
+    const Adding_Task = async () => {
+        try {
+            const response = await axios.post("http://localhost:8080/task/createTask/1/1");
+            window.location.reload();
+            const newTask = response.data;
+            const tableIndex = 0; 
+            const updatedTables = [...tables];
+            updatedTables[tableIndex].tasks.push(newTask);
+            
+            settables(updatedTables);
+            
+        } catch (error) {
+            console.error("Error adding task: ", error);
+        }
+    }
+    
+    
+    async function onDelete(task_id) {
+        console.log(task_id);
+        try {
+            const response = await fetch(`http://localhost:8080/task/deleteTaskById/${task_id}/1`, {
+                method: 'DELETE'
+                
+            });
+            if (response.ok) {
+                window.location.reload();
+                const updatedTasks = tables[0].tasks.filter(task => task.task_id !== task_id);
+                settables([{ ...tables[0], tasks: updatedTasks }]);
+                
+            } else {
+                throw new Error('Failed to delete task');
+            }
+        } catch (error) {
+            console.error('Error deleting task:', error);
+        }
+    }
      
   return (
     <>
@@ -224,7 +261,7 @@ function ProjectSection() {
                                         <div className="box-arrow"></div>
                                         <p>
                                             <i className="lni lni-trash-can"></i>
-                                            <span>Delete</span>
+                                            <span onClick={() => onDelete(task.task_id)}>Delete</span>
                                         </p>
                                         <p>
                                             <i className="lni lni-clipboard"></i>
@@ -232,7 +269,7 @@ function ProjectSection() {
                                         </p>
                                         <p>
                                         <i className="lni lni-circle-plus"></i>
-                                            <span>Delete</span>
+                                            <span onClick={Adding_Task}>Add task</span>
                                         </p>
                                     </div>
                                     <div className='field_name text_task table-task task-title'>
