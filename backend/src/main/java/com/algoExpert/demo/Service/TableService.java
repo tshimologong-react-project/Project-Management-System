@@ -1,6 +1,6 @@
 package com.algoExpert.demo.Service;
 import com.algoExpert.demo.Entity.Project;
-import com.algoExpert.demo.Entity.Tables;
+import com.algoExpert.demo.Entity.Table;
 import com.algoExpert.demo.Entity.Task;
 import com.algoExpert.demo.Repository.ProjectRepository;
 import com.algoExpert.demo.Repository.TableRepository;
@@ -24,8 +24,8 @@ public class TableService {
     public Project createTable(int project_id, int member_id){
         Project project =  projectRepository.findById(project_id).get();
 
-        List<Tables> tables = project.getTables();
-        Tables table =new Tables(0,"New Table",null);
+        List<Table> tables = project.getTables();
+        Table table =new Table(0,"New Table",null);
         Task task=new Task(0,"",""
                 ,member_id,"","","","",null);
 
@@ -39,11 +39,11 @@ public class TableService {
         return projectRepository.save(project);
     }
     @Transactional
-    public List<Tables> deleteTable(Integer project_id, Integer table_id) {
+    public List<Table> deleteTable(Integer project_id, Integer table_id) {
         Project project = projectRepository.findById(project_id).orElse(null);
-        Tables table = tableRepository.findById(table_id).orElse(null);
+        Table table = tableRepository.findById(table_id).orElse(null);
 
-        List<Tables> tablesList = project.getTables();
+        List<Table> tablesList = project.getTables();
         tablesList.remove(table);
         project.setTables(tablesList);
 
@@ -53,7 +53,7 @@ public class TableService {
 
 
 //  get all tables
-    public List<Tables> getAllTables() {
+    public List<Table> getAllTables() {
         return tableRepository.findAll();
     }
 

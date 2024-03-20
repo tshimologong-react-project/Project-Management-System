@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MemberService {
@@ -40,6 +41,21 @@ public class MemberService {
         return memberRepository.findAll();
     }
 
-//    get all members of a project
+    //    get member id
+    public Integer findLoginMember(int user_id) {
+        List<Member> memberList = memberRepository.findAll();
+
+        Optional<Member> optionalMember = memberList.stream()
+                .filter(member -> member.getUser_id() == user_id)
+                .findFirst();
+
+        if (optionalMember.isPresent()) {
+            return optionalMember.get().getMember_id();
+        } else {
+            // Handle case when member with given user_id is not found
+            return null; // Or throw an exception, depending on your use case
+        }
+    }
+
 
 }
