@@ -88,5 +88,23 @@ public class TaskService {
                     return taskRepository.save(existingTask);
                 }).orElseThrow(() -> new InvalidArgument("Task with ID " + task_id + " not found"));
     }
+
+    //duplicate task
+    public Table duplicateTask(Task task, Integer table_id){
+        Table table = tableRepository.findById(table_id).get();
+
+        Task newTask=new Task(0,task.getTitle(),task.getDescription()
+
+                ,task.getOwner(),task.getStart_date(),task.getEnd_date(),task.getStatus(),
+                task.getPriority(),null);
+        List<Task> taskList =table.getTasks();
+
+
+
+        taskList.add(newTask);
+        table.setTasks(taskList);
+        return  tableRepository.save(table);
+    }
+
 }
 

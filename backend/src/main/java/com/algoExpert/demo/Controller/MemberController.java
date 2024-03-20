@@ -28,4 +28,9 @@ public class MemberController {
         return memberService.getAllMembers();
     }
 
+    @GetMapping("/getMemebrId/{user_id}")
+    public Integer getMemberId(@PathVariable int user_id ){
+        return memberService.findLoginMember(user_id);
+    }
+
 }
