@@ -9,7 +9,7 @@ import java.util.List;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int task_id;
+    private Integer task_id;
     private String title;
     private String description;
     private int owner;
@@ -19,7 +19,7 @@ public class Task {
     private String priority;
 
 //    relationships
-   @OneToMany(cascade = CascadeType.ALL)
+   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
    List<Comment> comments;
 
     public Task() {

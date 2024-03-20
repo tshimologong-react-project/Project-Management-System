@@ -29,4 +29,30 @@ public class TaskController {
         return taskService.getAllTask();
     }
 
+    //delete task
+    @DeleteMapping("/deleteTaskById/{task_id}/{table_id}")
+    public Table deleteTaskById(@PathVariable Integer task_id, @PathVariable Integer table_id){
+       return  taskService.deleteTaskById(task_id,table_id);
+    }
+
+    @PutMapping("/editTask/{task_id}")
+    public Task editTask(@RequestBody Task task, @PathVariable Integer task_id){
+        return  taskService.editTask(task,task_id);
+    }
+
+    @PostMapping("/duplicateTask/{table_id}")
+    public Table taskUpdate(@PathVariable Integer table_id,@RequestBody Task task){
+        return taskService.duplicateTask(task,table_id);
+    }
+
+
+
+
+
+//    @PostMapping("/duplicateTask/{task_id}/{table_id}")
+//    public Task duplicateTask(@PathVariable int task_id,@PathVariable int table_id){
+//        return taskService.duplicateTask(task_id,table_id);
+//    }
+
+
 }

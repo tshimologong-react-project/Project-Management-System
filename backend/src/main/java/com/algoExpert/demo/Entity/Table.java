@@ -1,12 +1,11 @@
 package com.algoExpert.demo.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
-@jakarta.persistence.Table(name = "task_table")
+
 public class Table {
 
     @Id
@@ -14,7 +13,7 @@ public class Table {
     private int table_id;
     private String table_name;
 
-    @OneToMany( cascade = CascadeType.ALL )
+    @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
     List<Task> tasks;
 
     public Table() {

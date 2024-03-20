@@ -28,6 +28,11 @@ public class TableController {
     return tableService.getAllTables();
 }
 
+    @DeleteMapping("/deleteTable/{project_id}/{table_id}")
+    public List<Table> deleteTable(@PathVariable Integer project_id, Integer table_id){
+        return tableService.deleteTable(project_id,table_id);
+    }
+
 //    update table
 //    @PutMapping("/updateTable/{id}")
 //    public Table updateTable(@PathVariable int id, @RequestBody Table table) {
