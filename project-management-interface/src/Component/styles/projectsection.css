@@ -71,7 +71,7 @@
 }
 .person_filter_box{
     position: absolute;
-    transition: all 2s;
+    transition: all 500ms;
     top: 40px;
     left: 0;
     background-color: #fff;
@@ -116,7 +116,9 @@
 .project_create_table_invite{
     display: flex;
     align-items: center;
+    color: #fff;
 }
+.project_create_table_invite i{margin-right: 5px;}
 .invite_btn{
     margin-left: 10px;
     position: relative;
@@ -136,7 +138,7 @@
 }
 .invite_members{
     position: absolute;
-    transition: all 2s;
+    transition: all 500ms;
     right: 0;
     width:300px;
     top: 45px;
@@ -144,6 +146,7 @@
     z-index: 6;
     background-color: #fff;
     overflow: hidden;
+
 }
 .member_invite_wrapper{
     padding: 20px;
@@ -189,7 +192,6 @@
     color: #fff;
     text-transform: capitalize;
     cursor: pointer;
-    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -204,16 +206,46 @@
     margin-right: 6px;
     font-size: 16px;
 }
+
+.edit-table{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
 #table_title{
     font-size: 14px;
     color: var(--title-color);
     font-weight: var(--header-font-weight);
     text-transform: capitalize;
 }
+.edit-table .lni-chevron-down{
+    margin-left: 15px;
+    color: #aaa;
+    cursor: pointer;
+    padding:3px 4px;
+} 
+.edit-table-hidden-box{
+    position: absolute;
+    top: 4rem;
+    left: 0;
+    z-index: 4;
+    overflow: hidden;
+    transition: all 500ms;
+    background-color: #fff;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+.edit_table_icon{
+    padding:15px 20px;
+    cursor: pointer;
+}
+.edit_table_icon i{margin-right: 10px;}
+.edit_table_icon i,.edit_table_icon span{
+    font-size: var(--subheader-font-size);
+    color: #aaa;
+}
 .project_table{
     width: 100%;
     border: var(--box-border);
-
     border-radius: 10px;
 }
 .project_table .page-row{
@@ -301,15 +333,16 @@
     top: 10px;
     cursor: pointer;
 }
-
+.task-title div{
+    margin-left: 35px;
+}
 .edit_task_box, .add-table-column{
     position: absolute;
     z-index: 3;
     background-color: #fff;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    transition: all 500ms;
     overflow: hidden;
-    transition: all 2s;
+    transition: all 500ms;
 }
 .edit_task_box{
     left: -160px;

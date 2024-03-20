@@ -27,7 +27,7 @@ function Sidebar() {
   return (
     <>
     <div className="sidebar">
-        <h6 className='logo'><img src={logo} alt="" /><span> Algoexperts</span></h6>
+        <h6 className='logo'><img src={logo} alt="" /><span> ProjectGuru</span></h6>
         <a href='/createproject' id='sidebar-create-btn'>Create project <i class="lni lni-plus"></i></a>
         <div className="sidebar-links">
             <span id='sidebar-subtitle'>dashboard</span>
