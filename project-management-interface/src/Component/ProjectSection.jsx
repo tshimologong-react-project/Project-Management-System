@@ -2,21 +2,28 @@ import React,{useState,useEffect} from 'react'
 import axios from 'axios';
 
 function ProjectSection() {
-    const [statusValue, setStatusValue] = useState("Done");
+    const [editedTask, seteditedTask] = useState({});
     const [projectMembers, setProjectMembers] = useState(["Jane Doe"]);
     const [users, setUsers] = useState(["Alex Smith"]);
     const [memeberFound, setmemeberFound] = useState([]);
-    const [dropDownBoxesHeight, setDropDownBoxesHeight] = useState([
-        {statusBox: 0},{addColumn:0}, {editRow:0},{inviteBox:0},{filterBox:0}, {sort:0},
-        {rowId:0}, {statusIndex:0}
-    ]);
+    const [dropDownBoxesHeight, setDropDownBoxesHeight] = useState(
+        {statusBox: 0,addColumn:0,columnIndex:0, editRow:0, inviteBox:0, filterBox:0, sort:0,rowId:0, statusIndex:0,table:0,tableIndex:0}
+    );
 
     const [oneProject, setoneProject] = useState( {project_id: "",
     title: "",
     description: "",
     tables: [
         {
-            tasks:[{}]
+            tasks:[{
+                task_id:0,
+                title:"",
+                description:"",
+                owner:"",
+                start_date:"",
+                end_date:"",
+                status:"",
+            }]
         }
     ]
 });
@@ -37,26 +44,13 @@ function ProjectSection() {
         return () => {
         }
     }, []);
- 
-   
 
-    const [tables, settables] = useState([[
-        {table_name:"Table Name"}, {tasks:[{task_id:1, title:"",Owner:"",Description:"",Start_date:"",End_date:""},
-        {task_id:2, title:"task title",Owner:"Jane Doe",Description:"Item Description",Start_date:"",End_date:""},
-         {task_id:3, title:"task title",Owner:"Jane Doe",Description:"Item Description",Start_date:"",End_date:""}
-        ]}
-    ]]);
-   
-    const toogleDropDownBoxes=(contentType,height,rowIndex)=>{
-        setDropDownBoxesHeight(prevValue => prevValue.map(item=> 
-            contentType == 'statusBox' ? {...item,  statusIndex : rowIndex, }: 
-            contentType == 'editRow' ?  {...item, rowId: rowIndex}:{...item}
-        ))
-        setDropDownBoxesHeight(prevValue => prevValue.map(item=> 
-            item[contentType] ? {...item, [contentType] : 0}: {...item, [contentType] : height}
-        ))
-    } 
-
+    const toogleDropDownBoxes=(contentType,height,rowIndex,indexType)=>{
+        setDropDownBoxesHeight(prevState => ({
+        ...prevState,
+        [contentType]: dropDownBoxesHeight[contentType] === 0 ? height : 0,
+        [indexType !== "" ? indexType : '']: rowIndex
+    }));} 
     const createTable=()=>{
         const newTable = tables[0];
         settables([...tables,newTable])
@@ -70,9 +64,26 @@ function ProjectSection() {
     const addMemberToProject=(newMember)=>{
         setProjectMembers(prevItems =>[...prevItems,newMember])
     }   
+
+    const sendEditedRow =()=>{
+        if(Object.keys(editedTask).length !== 0){
+            console.log(editedTask)
+        }
+    }
+    const editRow =(columnName,columnValue,tableIndex,taskIndex)=>{
+        seteditedTask({})
+        setoneProject(prevState =>{
+            const prevProject = {...prevState}
+            prevProject.tables[tableIndex].tasks[tableIndex][columnName] = columnValue;
+            return prevProject
+        })
+        seteditedTask(oneProject.tables[tableIndex].tasks[taskIndex])
+        if(columnName == "status"){sendEditedRow()}
+    }
+     
   return (
     <>
-        <div className="project-section">
+          <div className="project-section">
             <div className="container">
                 <div className="comment_wrapper">
                     <i className="lni lni-close"></i>
@@ -123,8 +134,8 @@ function ProjectSection() {
                                 </form>
                                 <div className="peron_filter table_filter_col">
                                     <i className="lni lni-users"></i>
-                                    <p onClick={()=>toogleDropDownBoxes("filterBox",100,0)}>Filter by person</p>
-                                    <div style={{height:dropDownBoxesHeight[4].filterBox}} className="person_filter_box">
+                                    <p onClick={()=>toogleDropDownBoxes("filterBox",100,0,"")}>Filter by person</p>
+                                    <div style={{height:dropDownBoxesHeight.filterBox}} className="person_filter_box">
                                         <div className="filter_person_wrapper">
                                             <h6>Select member to filter with:</h6>
                                             {projectMembers.map((name,i)=>
@@ -146,8 +157,8 @@ function ProjectSection() {
                                 )}
                             </div> 
                             <div  className="invite_btn">
-                                <p onClick={()=>toogleDropDownBoxes("inviteBox", 250,0)}>invite <i class="lni lni-circle-plus"></i></p>
-                                <div style={{height: dropDownBoxesHeight[3].inviteBox}} className="invite_members">
+                                <p onClick={()=>toogleDropDownBoxes("inviteBox", 250,0,"")}>invite <i class="lni lni-circle-plus"></i></p>
+                                <div style={{height: dropDownBoxesHeight.inviteBox}} className="invite_members">
                                    <div className="member_invite_wrapper">
                                         <h5>Search members to add by name  </h5>
                                         <form action=""> <input onChange={(e)=>showSearchedMember(e)} type="text" placeholder='Please search member' /><input type="submit" value="search"/></form>
@@ -173,10 +184,20 @@ function ProjectSection() {
                 {
                   oneProject.tables.map((table,table_index)=>
                         <div className="table_section">
-                            <h6 id='table_title'>{table.table_name}</h6>
+                            <div className='edit-table'>
+                                <h6 id='table_title'>{table.table_name}</h6>
+                                <i className="lni lni-chevron-down" onClick={()=>toogleDropDownBoxes("table", 50,table_index,'tableIndex')}></i>
+                                <div style={{height: table_index == dropDownBoxesHeight.tableIndex ? dropDownBoxesHeight.table :0}} className="edit-table-hidden-box">
+                                    <div className='edit_table_icon'>
+                                        <i className="lni lni-trash-can"></i>
+                                        <span>Delete table</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <div className="project_table">
                                 <div className="page-row col_name_row">
-                                    <div style={{height:dropDownBoxesHeight[1].addColumn}}  className="add-table-column">
+                                    <div style={{height:dropDownBoxesHeight.addColumn}}  className="add-table-column">
                                         <h6>Add extra table columns:</h6>
                                         <p>
                                             <i className="lni lni-comments-alt-2"></i>
@@ -193,13 +214,13 @@ function ProjectSection() {
                                     <span className='field_name col_name'>start-date</span>
                                     <span className='field_name col_name'>end-date</span>
                                     <span className='field_name col_name'>status</span>
-                                    <div className='more  more-col' onClick={()=>toogleDropDownBoxes("addColumn", 160)}> <i className="lni lni-more"></i></div>
+                                    <div className='more  more-col' onClick={()=>toogleDropDownBoxes("addColumn", 160,table_index,'columnIndex')}> <i className="lni lni-more"></i></div>
                                 </div>
                             {
                             table.tasks.map((task,taskIndex)=>
                               <div>
                                   <div  className="page-row table_task_row">
-                                    <div style={{height:dropDownBoxesHeight[6].rowId == task.task_id ? dropDownBoxesHeight[2].editRow : 0 }} className="edit_task_box">
+                                    <div style={{height:dropDownBoxesHeight.rowId == task.task_id ? dropDownBoxesHeight.editRow : 0 }} className="edit_task_box">
                                         <div className="box-arrow"></div>
                                         <p>
                                             <i className="lni lni-trash-can"></i>
@@ -214,18 +235,22 @@ function ProjectSection() {
                                             <span>Delete</span>
                                         </p>
                                     </div>
-                                    <span className='field_name text_task table-task task-title'><i onClick={()=>toogleDropDownBoxes('editRow', 160, task.task_id)} className="more-task lni lni-more"></i> <span>{task.title}</span> </span>
-                                    <span className='field_name table-task text_task'>{task.Description}</span>
-                                    <span className='field_name table-task text_task' >{task.Owner}</span>
-                                    <div className='field_name table-task'><input type="date"/></div>
-                                    <div  className='field_name table-task'><input type="date"/></div>
-                                    <div onClick={()=>toogleDropDownBoxes("statusBox", 160, task.task_id)} id={statusValue} className='status field_name table-task'>
-                                        {statusValue}
-                                        <div style={{height:dropDownBoxesHeight[7].statusIndex == task.task_id ? dropDownBoxesHeight[0].statusBox : 0}} className="status_dropdown">
+                                    <div className='field_name text_task table-task task-title'>
+                                        <i onClick={()=>toogleDropDownBoxes('editRow', 160, task.task_id,"rowId" )} className="more-task lni lni-more"></i> 
+                                        <div contentEditable  ></div>
+                                        <span>{task.title}</span> 
+                                    </div>
+                                    <div className='field_name table-task text_task' contentEditable onBlur={sendEditedRow} onInput={(e)=>editRow('decription',e.target.innerText,table_index,taskIndex)}><span>{task.Description}</span></div>
+                                    <div className='field_name table-task text_task'><span>{task.Owner}</span></div>
+                                    <div className='field_name table-task'><input onBlur={sendEditedRow} onChange={(e)=>editRow('start_date',e.target.value,table_index,taskIndex)} type="date"/></div>
+                                    <div  className='field_name table-task'><input type="date" onBlur={sendEditedRow} onChange={(e)=>editRow('end_date',e.target.value,table_index,taskIndex)} /></div>
+                                    <div onClick={()=>toogleDropDownBoxes("statusBox", 160, task.task_id)} id={task.status} className='status field_name table-task'>
+                                        {task.status}
+                                        <div style={{height:dropDownBoxesHeight.statusIndex == task.task_id ? dropDownBoxesHeight.statusBox : 0}} className="status_dropdown">
                                             <div className="status_dropdown_content">
-                                                <span id='Done'>Done</span>
-                                                <span id='ToDo'>To Do</span>
-                                                <span id='InProgress'>In Progress</span>
+                                                <span  onClick={(e)=>editRow('status',e.target.innerText,table_index,taskIndex)} id='Done'>Done</span>
+                                                <span onClick={(e)=>editRow('status',e.target.innerText,table_index,taskIndex)} id='ToDo'>ToDo</span>
+                                                <span onClick={(e)=>editRow('status',e.target.innerText,table_index,taskIndex)} id='InProgress'>InProgress</span>
                                             </div>
                                         </div>
                                    </div>
