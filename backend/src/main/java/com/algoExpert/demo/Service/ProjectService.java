@@ -97,9 +97,4 @@ public class ProjectService {
 
     }
 
-    public List<Project> getProjectByUserId(int user_id) throws InvalidArgument{
-        User user = userRepository.findById(user_id).orElseThrow(()-> new InvalidArgument("User with ID "+user_id+" not found"));
-        return projectRepository.getProjectByUserId(user.getUser_id());
-    }
-
 }
