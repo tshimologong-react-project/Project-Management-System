@@ -39,5 +39,10 @@ public class ProjectController {
         return projectService.deleteProjectById(project_id);
     }
 
+    @PutMapping("/editProject/{project_id}")
+    public Project deleteProject(@RequestBody Project project,@PathVariable int project_id){
+        return projectService.editProject(project,project_id);
+    }
+
 
 }

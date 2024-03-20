@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TableService {
@@ -51,19 +52,23 @@ public class TableService {
         return tableRepository.findAll();
     }
 
-
 //  get all tables
     public List<Table> getAllTables() {
         return tableRepository.findAll();
     }
 
-//  update table by id
-//    public Table updateTable(int id, String table) {
-//        Table table1 = tableRepository.findById(id).get();
-//        table1.getTable_name();
-//            return tableRepository.save(table);
-//    }
 
-//    delete table by id
+
+    public Table editTable(Table newTableValue,int table_id){
+        return tableRepository.findById(table_id)
+                .map(existingTable->{
+                    if(newTableValue !=null){
+                        Optional.ofNullable(newTableValue.getTable_name()).ifPresent(existingTable::setTable_name);
+                    }
+                    return tableRepository.save(existingTable);
+                }).orElseThrow(() -> new IllegalArgumentException("Task with ID " + table_id + " not found"));
+
+    }
+
 }
 
