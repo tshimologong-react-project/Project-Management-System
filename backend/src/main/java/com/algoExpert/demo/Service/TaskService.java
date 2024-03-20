@@ -1,16 +1,14 @@
 package com.algoExpert.demo.Service;
 
 import com.algoExpert.demo.Entity.*;
+import com.algoExpert.demo.ExceptionHandler.InvalidArgument;
 import com.algoExpert.demo.Repository.*;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,14 +35,13 @@ public class TaskService {
     private MemberRepository memberRepository;
 
 //    create new task
+    public Table createTask(int member_id, int table_id) throws InvalidArgument {
 
-
-    public Table createTask(int member_id, int table_id){
-
-        Table table = tableRepository.findById(table_id).get();
+        Table table = tableRepository.findById(table_id).orElseThrow(()->new InvalidArgument("Table with ID " + table_id + " not found"));
 
         List<Task> taskList =table.getTasks();
-        Task task=new Task(0,"",""
+        int count = taskList.size()+1;
+        Task task=new Task(0,"task"+count,""
                 ,member_id,"","","","",null);
 
         taskList.add(task);
@@ -52,11 +49,12 @@ public class TaskService {
 
         return tableRepository.save(table);
     }
+
     //delete task
     @Transactional
-    public Table deleteTaskById(Integer taskId, Integer table_id) {
-        Task storedTask = taskRepository.findById(taskId).orElse(null);
-        Table table = tableRepository.findById(table_id).orElse(null);
+    public Table deleteTaskById(Integer taskId, Integer table_id) throws InvalidArgument{
+        Task storedTask = taskRepository.findById(taskId).orElseThrow(()->new InvalidArgument("Task with ID " + taskId + " not found"));
+        Table table = tableRepository.findById(table_id).orElseThrow(()->new InvalidArgument("Table with ID " + table_id + " not found"));
             List<Comment> comments = storedTask.getComments();
             if (!comments.isEmpty()) {
                 for (Comment comment : comments) {
@@ -69,13 +67,14 @@ public class TaskService {
            tableRepository.save(table);
         return table;
     }
+
 //    get all tasks
     public List<Task> getAllTask(){
         return taskRepository.findAll();
     }
 
-
-    public Task editTask(Task newTask,int task_id){
+//    update task
+    public Task editTask(Task newTask,int task_id) throws InvalidArgument{
         return   taskRepository.findById(newTask.getTask_id())
                 .map(existingTask ->{
                     if (newTask != null){
@@ -87,7 +86,7 @@ public class TaskService {
                         Optional.ofNullable(newTask.getPriority()).ifPresent(existingTask::setPriority);
                     }
                     return taskRepository.save(existingTask);
-                }).orElseThrow(() -> new IllegalArgumentException("Task with ID " + task_id + " not found"));
+                }).orElseThrow(() -> new InvalidArgument("Task with ID " + task_id + " not found"));
     }
 }
 
