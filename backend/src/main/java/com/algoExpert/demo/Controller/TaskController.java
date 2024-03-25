@@ -24,26 +24,28 @@ public class TaskController {
         return taskService.createTask(member_id,table_id);
     }
 
-//    get all tasks
+//  get all tasks
     @GetMapping("/getAllTask")
     public List<Task> getAllTask(){
         return taskService.getAllTask();
     }
 
-    //delete task
-    @DeleteMapping("/deleteTaskById/{task_id}/{table_id}")
-    public Table deleteTaskById(@PathVariable Integer task_id, @PathVariable Integer table_id) throws InvalidArgument{
-       return  taskService.deleteTaskById(task_id,table_id);
-    }
-
+// update task by id
     @PutMapping("/editTask/{task_id}")
     public Task editTask(@RequestBody Task task, @PathVariable Integer task_id) throws InvalidArgument{
         return  taskService.editTask(task,task_id);
     }
 
+// duplicate task by id
     @PostMapping("/duplicateTask/{table_id}")
     public Table taskUpdate(@PathVariable Integer table_id,@RequestBody Task task){
         return taskService.duplicateTask(task,table_id);
+    }
+
+//delete task by id
+    @DeleteMapping("/deleteTaskById/{task_id}/{table_id}")
+    public Table deleteTaskById(@PathVariable Integer task_id, @PathVariable Integer table_id) throws InvalidArgument{
+        return  taskService.deleteTaskById(task_id,table_id);
     }
 
 
