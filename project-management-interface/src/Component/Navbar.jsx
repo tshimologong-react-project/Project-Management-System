@@ -10,9 +10,9 @@ function Navbar() {
             <button id='input_search_btn'><i className="lni lni-search"></i></button></form>
             <div className="nav-right-bar">
                 <div className="nav-icons">
-                    <i class="lni lni-information"></i>
+                    <i className="lni lni-information"></i>
                     <i className="lni lni-alarm"></i>
-                    <i class="lni lni-cog"></i>
+                    <i className="lni lni-cog"></i>
                 </div>
                 <div className="profile">
                   <div>
