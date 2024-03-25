@@ -11,47 +11,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService {
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private MemberRepository memberRepository;
-
-    @Autowired
-    private ProjectRepository projectRepository;
+public interface UserService {
 
 //    create user
-    public User create(User user){
-        return userRepository.save(user);
-    }
+    User create(User user);
 
 // get all users
-    public List<User> getUsers(){
-        return userRepository.findAll();
-    }
+    List<User> getUsers();
+
+//  get all projects
+    List<Project> getUserProjectIds(int userId);
 
 //    delete user by id
-    public List<User> deleteUser(int userId){
-        userRepository.deleteById(userId);
-        return userRepository.findAll();
-    }
-
-
-    public List<Project> getUserProjectIds(int userId) {
-        // Find all members
-        List<Member> memberList = memberRepository.findAll();
-
-        // Filter members by user_id and map them to project ids
-        List<Integer> userProjectIds = memberList.stream()
-                .filter(member -> member.getUser_id() == userId)
-                .map(Member::getProject_id) // Assuming you have a method getProject_id() in Member class
-                .collect(Collectors.toList());
-
-        return projectRepository.findAllById(userProjectIds);
-    }
-
-
-
+    List<User> deleteUser(int userId);
 }
