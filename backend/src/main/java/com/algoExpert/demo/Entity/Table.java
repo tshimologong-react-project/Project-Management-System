@@ -1,9 +1,13 @@
 package com.algoExpert.demo.Entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @jakarta.persistence.Table(name = "task_container")
 public class Table {
@@ -16,6 +20,7 @@ public class Table {
     @OneToMany( cascade = CascadeType.ALL, orphanRemoval = true)
     List<Task> tasks;
 
+    /*
     public Table() {
     }
 
@@ -48,4 +53,6 @@ public class Table {
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
+
+     */
 }

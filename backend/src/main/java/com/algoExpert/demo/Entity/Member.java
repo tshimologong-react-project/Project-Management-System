@@ -1,9 +1,13 @@
 package com.algoExpert.demo.Entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Member {
     //member entity
@@ -18,6 +22,7 @@ public class Member {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Task> taskList;
 
+    /*
     public Member() {
     }
 
@@ -59,4 +64,5 @@ public class Member {
     public void setTaskList(List<Task> taskList) {
         this.taskList = taskList;
     }
+     */
 }

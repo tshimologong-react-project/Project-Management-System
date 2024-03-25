@@ -41,7 +41,7 @@ public class TaskService {
 
         List<Task> taskList =table.getTasks();
         int count = taskList.size()+1;
-        Task task=new Task(0,"task"+count,""
+        Task task = new Task(0,"task"+count,""
                 ,member_id,"","","","",null);
 
         taskList.add(task);

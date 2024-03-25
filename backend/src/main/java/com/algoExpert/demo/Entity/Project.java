@@ -2,9 +2,13 @@ package com.algoExpert.demo.Entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Project {
 
@@ -26,6 +30,7 @@ public class Project {
     @JoinColumn(name = "user_id",referencedColumnName = "user_id")
     private User user;
 
+    /*
     public Project() {
     }
 
@@ -85,4 +90,6 @@ public class Project {
     public void setUser(User user) {
         this.user = user;
     }
+*/
+
 }

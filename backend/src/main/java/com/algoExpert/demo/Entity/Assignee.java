@@ -4,7 +4,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Assignee {
 
@@ -16,7 +22,7 @@ public class Assignee {
 
 	private Integer task_id;
 
-
+/*
 	public Assignee() {
 	}
 
@@ -49,4 +55,6 @@ public class Assignee {
 	public void setTask_id(Integer task_id) {
 		this.task_id = task_id;
 	}
+
+ */
 }

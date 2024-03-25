@@ -42,9 +42,9 @@ public class ProjectController {
         return projectService.editProject(project,project_id);
     }
 
-    @GetMapping("/fetchUserProject/{user_id}")
-    public List<Project> d(@PathVariable int user_id) throws InvalidArgument {
-        return projectService.getProjectByUserId(user_id);
-    }
+//    @GetMapping("/fetchUserProject/{user_id}")
+//    public List<Project> d(@PathVariable int user_id) throws InvalidArgument {
+//        return projectService.getProjectByUserId(user_id);
+//    }
 
 }

@@ -29,7 +29,7 @@ public class MemberService {
     public Project inviteMember (int project_id , int user_id)throws InvalidArgument{
         User user = userRepository.findById(user_id).orElseThrow(()->new InvalidArgument("User wth ID "+user_id+" not found"));
         Project userproject = projectRepository.findById(project_id).orElseThrow(()->new InvalidArgument("Project wth ID "+project_id+" not found"));
-        List<Member> members =  userproject.getMembersList();
+        List<Member> members =  userproject.getMemberList();
         boolean memberExist = members.stream()
                 .map(Member::getUser_id)
                 .anyMatch(id->id==user_id);
@@ -39,7 +39,7 @@ public class MemberService {
         }else{
             Member newMember = new Member(0,user.getUser_id(), userproject.getProject_id(),null);
             members.add(newMember);
-            userproject.setMembersList(members);
+            userproject.setMemberList(members);
 
             return projectRepository.save(userproject);
         }

@@ -2,9 +2,15 @@ package com.algoExpert.demo.Entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Task {
     @Id
@@ -22,6 +28,7 @@ public class Task {
    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
    List<Comment> comments;
 
+   /*
     public Task() {
     }
 
@@ -109,4 +116,5 @@ public class Task {
         this.comments = comments;
     }
 
+    */
 }

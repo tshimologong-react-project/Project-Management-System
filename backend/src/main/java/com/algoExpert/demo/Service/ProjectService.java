@@ -43,10 +43,10 @@ public class ProjectService {
         Project savedProjects = projectRepository.save(project);
 
 //        add owner to the project as a member
-        List<Member> members = savedProjects.getMembersList();
+        List<Member> members = savedProjects.getMemberList();
         Member newMember = new Member(0, user.getUser_id(), savedProjects.getProject_id(), null);
         members.add(newMember);
-        project.setMembersList(members);
+        project.setMemberList(members);
 
 //        create a default table
         tableService.createTable(project.getProject_id(), user.getUser_id());
@@ -76,7 +76,7 @@ public class ProjectService {
         }
 
         // Delete associated members
-        for (Member member : project.getMembersList()) {
+        for (Member member : project.getMemberList()) {
             memberRepository.delete(member);
         }
         // Now delete the project
