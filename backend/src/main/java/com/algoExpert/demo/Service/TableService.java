@@ -28,6 +28,7 @@ public class TableService {
 
 
 //  create a new table
+
     public Project createTable(int project_id, int member_id) throws InvalidArgument{
         Project project =  projectRepository.findById(project_id).orElseThrow(()->new InvalidArgument("Project with ID " + project_id + " not found"));
 
@@ -35,18 +36,19 @@ public class TableService {
         int count = project.getTables().size();
         Table table =new Table(0,"Table"+ count,null);
         Task task=new Task(0,"task","description"
-                ,member_id,"","","","",null);
+                ,member_id,"","","","",null,null);
 
+    tables.add(table);
+    project.setTables(tables);
+    List<Task> taskList = new ArrayList<>();
+    taskList.add(task);
+    table.setTasks(taskList);
 
-        tables.add(table);
-        project.setTables(tables);
-        List<Task> taskList=new ArrayList<>();
-        taskList.add(task);
-        table.setTasks(taskList);
+    return projectRepository.save(project);
+}
 
-        return projectRepository.save(project);
-    }
     @Transactional
+
     public List<Table> deleteTable(Integer project_id, Integer table_id) throws InvalidArgument{
         Project project = projectRepository.findById(project_id).orElseThrow(()->new InvalidArgument("Project with ID " + project_id + " not found"));
         Table table = tableRepository.findById(table_id).orElseThrow(()->new InvalidArgument("Table with ID " + table_id + " not found"));

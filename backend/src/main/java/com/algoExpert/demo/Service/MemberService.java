@@ -4,6 +4,7 @@ package com.algoExpert.demo.Service;
 import com.algoExpert.demo.Entity.Member;
 import com.algoExpert.demo.Entity.Project;
 import com.algoExpert.demo.Entity.User;
+
 import com.algoExpert.demo.ExceptionHandler.InvalidArgument;
 import com.algoExpert.demo.Repository.MemberRepository;
 import com.algoExpert.demo.Repository.ProjectRepository;
@@ -26,6 +27,7 @@ public class MemberService {
     private MemberRepository memberRepository;
 
 //    Invite member to project
+
     public Project inviteMember (int project_id , int user_id)throws InvalidArgument{
         User user = userRepository.findById(user_id).orElseThrow(()->new InvalidArgument("User wth ID "+user_id+" not found"));
         Project userproject = projectRepository.findById(project_id).orElseThrow(()->new InvalidArgument("Project wth ID "+project_id+" not found"));

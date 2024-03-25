@@ -39,10 +39,11 @@ public class TaskService {
 
         Table table = tableRepository.findById(table_id).orElseThrow(()->new InvalidArgument("Table with ID " + table_id + " not found"));
 
+
         List<Task> taskList =table.getTasks();
         int count = taskList.size()+1;
         Task task=new Task(0,"task"+count,""
-                ,member_id,"","","","",null);
+                ,member_id,"","","","",null,null);
 
         taskList.add(task);
         table.setTasks(taskList);
@@ -96,8 +97,8 @@ public class TaskService {
         Task newTask=new Task(0,task.getTitle(),task.getDescription()
 
                 ,task.getOwner(),task.getStart_date(),task.getEnd_date(),task.getStatus(),
-                task.getPriority(),null);
-        List<Task> taskList =table.getTasks();
+                task.getPriority(),null,null);
+        List<Task> taskList = table.getTasks();
 
 
 
