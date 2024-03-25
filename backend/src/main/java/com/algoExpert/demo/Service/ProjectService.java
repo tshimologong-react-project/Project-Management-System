@@ -43,7 +43,7 @@ public class ProjectService {
 
 //      add owner to the project as a member
         List<Member> members =  savedProjects.getMembersList();
-        Member newMember = new Member(0,user.getUser_id(), savedProjects.getProject_id(),null);
+        Member newMember = new Member(0,user.getUser_id(), savedProjects.getProject_id(),user.getUsername(),null);
         members.add(newMember);
         project.setMembersList(members);
 
