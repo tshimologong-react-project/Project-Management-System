@@ -1,9 +1,8 @@
 package com.algoExpert.demo.Service.Impl;
 
-import com.algoExpert.demo.Entity.Project;
-import com.algoExpert.demo.Entity.Table;
-import com.algoExpert.demo.Entity.Task;
+import com.algoExpert.demo.Entity.*;
 import com.algoExpert.demo.ExceptionHandler.InvalidArgument;
+import com.algoExpert.demo.Repository.MemberRepository;
 import com.algoExpert.demo.Repository.ProjectRepository;
 import com.algoExpert.demo.Repository.TableRepository;
 import com.algoExpert.demo.Repository.TaskRepository;
@@ -28,37 +27,54 @@ public class TableServiceImpl implements TableService {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    private MemberRepository memberRepository;
 
 //  create a new table
     @Override
-
     public Project createTable(int project_id, int member_id) throws InvalidArgument {
-        // Retrieve the project by its ID
+        // Retrieve the project by ID
         Project project = projectRepository.findById(project_id)
                 .orElseThrow(() -> new InvalidArgument("Project with ID " + project_id + " not found"));
 
-        // Ensure that the tables list is initialized properly
-        List<Table> tables = project.getTables();
-        if (tables == null) {
-            tables = new ArrayList<>();
-            project.setTables(tables);
+        // Retrieve the member by ID
+        Member member = memberRepository.findById(member_id).orElseThrow(()->
+                new InvalidArgument("Member wth ID "+member_id+" not found"));
+
+        // check if member part of the project
+        List<Member> members =  project.getMemberList();
+        boolean memberExist = members.stream()
+                .map(Member::getMember_id)
+                .anyMatch(id->id==member_id);
+
+        // create table
+        if(memberExist){
+            // Ensure that the tables list is initialized properly
+            List<Table> tables = project.getTables();
+            if (tables == null) {
+                tables = new ArrayList<>();
+                project.setTables(tables);
+            }
+
+            // Create a new table and task
+            int count = tables.size();
+            Table table = new Table(0, "Table " + count, null);
+            Task task = new Task(0, "task", "description", member_id, "", ""
+                    , "", "", null);
+
+            // Add the table to the project's tables list
+            tables.add(table);
+            // Set the tasks list for the table
+            List<Task> taskList = new ArrayList<>();
+            taskList.add(task);
+            table.setTasks(taskList);
+
+            // Save the updated project and return it
+            return projectRepository.save(project);
         }
-
-        // Create a new table and task
-        int count = tables.size();
-        Table table = new Table(0, "Table " + count, null);
-        Task task = new Task(0, "task", "description", member_id, "", ""
-                , "", "", null);
-
-        // Add the table to the project's tables list
-        tables.add(table);
-        // Set the tasks list for the table
-        List<Task> taskList = new ArrayList<>();
-        taskList.add(task);
-        table.setTasks(taskList);
-
-        // Save the updated project and return it
-        return projectRepository.save(project);
+        else{
+            throw new InvalidArgument("Member ID " + member_id + " is not a member");
+        }
     }
 
 
@@ -82,7 +98,8 @@ public class TableServiceImpl implements TableService {
         return projectRepository.save(project);
     }*/
 
-//  get all tables
+//  get all table
+    @Override
     public List<Table> getAllTables() {
         return tableRepository.findAll();
     }
