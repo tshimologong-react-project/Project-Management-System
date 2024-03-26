@@ -39,12 +39,16 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Table createTask(int member_id, int table_id) throws InvalidArgument {
 
-        Table table = tableRepository.findById(table_id).orElseThrow(()->new InvalidArgument("Table with ID " + table_id + " not found"));
+        // check if table and member exist
+        Table table = tableRepository.findById(table_id).orElseThrow(()->
+                new InvalidArgument("Table with ID " + table_id + " not found"));
+        Member member = memberRepository.findById(member_id).orElseThrow(()->
+                new InvalidArgument("Member wth ID "+member_id+" not found"));
 
-        List<Task> taskList =table.getTasks();
+        List<Task> taskList = table.getTasks();
         int count = taskList.size()+1;
-        Task task = new Task(0,"task"+count,""
-                ,member_id,"","","","",null);
+        Task task = new Task(0,"task "+count,""
+                ,member.getMember_id(),"","","","",null);
 
         taskList.add(task);
         table.setTasks(taskList);
@@ -55,9 +59,12 @@ public class TaskServiceImpl implements TaskService {
 //  delete task
     @Override
     @Transactional
-    public Table deleteTaskById(Integer taskId, Integer table_id) throws InvalidArgument{
-        Task storedTask = taskRepository.findById(taskId).orElseThrow(()->new InvalidArgument("Task with ID " + taskId + " not found"));
-        Table table = tableRepository.findById(table_id).orElseThrow(()->new InvalidArgument("Table with ID " + table_id + " not found"));
+    public Table deleteTaskById(Integer task_id, Integer table_id) throws InvalidArgument{
+        Task storedTask = taskRepository.findById(task_id).orElseThrow(()->
+                new InvalidArgument("Task with ID " + task_id + " not found"));
+        Table table = tableRepository.findById(table_id).orElseThrow(()->
+                new InvalidArgument("Table with ID " + table_id + " not found"));
+
             List<Comment> comments = storedTask.getComments();
             if (!comments.isEmpty()) {
                 for (Comment comment : comments) {
