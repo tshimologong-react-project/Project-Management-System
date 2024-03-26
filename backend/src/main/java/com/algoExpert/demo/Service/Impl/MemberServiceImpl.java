@@ -12,6 +12,7 @@ import com.algoExpert.demo.Service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,14 +29,21 @@ public class MemberServiceImpl implements MemberService {
 
 //    Invite member to project
     @Override
-    public Project inviteMember (int project_id , int user_id)throws InvalidArgument{
+    public Member inviteMember (int project_id , int user_id)throws InvalidArgument{
+        // check if user and project exist
         User user = userRepository.findById(user_id).orElseThrow(()->
                 new InvalidArgument("User wth ID "+user_id+" not found"));
 
-        Project userproject = projectRepository.findById(project_id).orElseThrow(()->
+        Project userProject = projectRepository.findById(project_id).orElseThrow(()->
                 new InvalidArgument("Project wth ID "+project_id+" not found"));
 
-        List<Member> members =  userproject.getMemberList();
+        // Initialize the members list if it's null
+        List<Member> members = userProject.getMemberList();
+        if (members == null) {
+            members = new ArrayList<>();
+        }
+
+        // check if member exist
         boolean memberExist = members.stream()
                 .map(Member::getUser_id)
                 .anyMatch(id->id==user_id);
@@ -43,11 +51,13 @@ public class MemberServiceImpl implements MemberService {
         if(memberExist){
             throw new InvalidArgument("User ID " + user_id + " is already a member");
         }else{
-            Member newMember = new Member(0,user.getUser_id(), userproject.getProject_id(),null);
+            // create a new member
+            Member newMember = new Member(0,user.getUser_id(), userProject.getProject_id(),null);
             members.add(newMember);
-            userproject.setMemberList(members);
+            userProject.setMemberList(members);
+            projectRepository.save(userProject);
 
-            return projectRepository.save(userproject);
+            return memberRepository.save(newMember);
         }
     }
 

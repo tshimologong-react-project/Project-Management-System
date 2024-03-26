@@ -1,7 +1,6 @@
 package com.algoExpert.demo.Service;
 
 import com.algoExpert.demo.Entity.Member;
-import com.algoExpert.demo.Entity.Project;
 import com.algoExpert.demo.ExceptionHandler.InvalidArgument;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +10,7 @@ import java.util.List;
 public interface MemberService {
 
 //    Invite member to project
-    Project inviteMember (int project_id , int user_id)throws InvalidArgument;
+    Member inviteMember (int project_id , int user_id)throws InvalidArgument;
 
 //    get all members
     List<Member> getAllMembers();
