@@ -18,7 +18,7 @@ public class Task {
     private Integer task_id;
     private String title;
     private String description;
-    private int owner;
+    private String username;
     private String start_date;
     private String end_date;
     private String status;
@@ -27,6 +27,9 @@ public class Task {
 //    relationships
    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
    List<Comment> comments;
+
+   @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+   List<Assignee> assignees;
 
    /*
     public Task() {
@@ -42,6 +45,7 @@ public class Task {
         this.status = status;
         this.priority = priority;
         this.comments = comments;
+        this.assignees = assignees;
     }
 
     public int getTask_id() {
@@ -116,5 +120,12 @@ public class Task {
         this.comments = comments;
     }
 
+    public List<Assignee> getAssignees() {
+        return assignees;
+    }
+
+    public void setAssignees(List<Assignee> assignees) {
+        this.assignees = assignees;
+    }
     */
 }

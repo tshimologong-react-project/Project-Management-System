@@ -2,6 +2,7 @@ package com.algoExpert.demo.Controller;
 
 import com.algoExpert.demo.Entity.Project;
 import com.algoExpert.demo.Entity.Table;
+
 import com.algoExpert.demo.ExceptionHandler.InvalidArgument;
 import com.algoExpert.demo.Service.TableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class TableController {
 
 //    delete table
     @DeleteMapping("/deleteTable/{project_id}/{table_id}")
+
     public List<Table> deleteTable(@PathVariable Integer project_id, Integer table_id) throws InvalidArgument{
         return tableService.deleteTable(project_id,table_id);
     }
