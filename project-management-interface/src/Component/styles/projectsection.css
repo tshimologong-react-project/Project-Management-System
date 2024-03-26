@@ -285,7 +285,7 @@
 .row_description::after{
     content: "";
     position: absolute;
-    width: 1px;
+    width:0.5px;
     background-color: #ccc;
     height: 100%;
     right: 40px;
@@ -297,7 +297,7 @@
     color: #444;
     cursor: pointer;
 }
-.assignee span{
+.assignee .task_assign_letter{
     border-radius: 100%;
     height: 25px;
     width: 25px;
@@ -314,13 +314,12 @@
     align-items: center;
     justify-content: center;
 }
-.assignee span:first-child{margin-left: 0;}
+.assignee .task_assign_letter:first-child{margin-left: 0;}
+.assignee span{margin-right: 4px;} 
 .assignee i{
     font-size: 13px;
     color: var(--blue-color);
-    margin-left: 3px;
     cursor: pointer;
-
 }
 .status{position: relative;cursor: pointer;}
 .status_dropdown{
@@ -387,7 +386,7 @@
 }
 .edit_task_box, .add-table-column{
     position: absolute;
-    z-index: 3;
+    z-index: 10;
     background-color: #fff;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     overflow: hidden;
