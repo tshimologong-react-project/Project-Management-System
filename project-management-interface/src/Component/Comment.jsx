@@ -27,7 +27,7 @@ function Comment(props) {
                     <h6 id="comment_section_title">Comments on the front end project </h6>
                     <div className="comment-section">
                         <form action="">
-                            <textarea onChange={(e)=>setcreateComment({comment:e.target.value})} placeholder='Please type your comment here' name="" id="" cols="30" rows="7"></textarea>
+                            <textarea onChange={(e)=>setcreateComment({commentBody:e.target.value})} placeholder='Please type your comment here' name="" id="" cols="30" rows="7"></textarea>
                             <div className="comment-buttons">
                                 <div className="letter_buttons">
                                     <span>B</span>
@@ -45,7 +45,7 @@ function Comment(props) {
                                 <div className="user_massage">
                                       <span id="user_name">{comments.username}</span>
                                       <span id='comment_time'>{comments.date_created}</span>
-                                      <p>{comments.comment}</p>
+                                      <p>{comments.commentBody}</p>
                                 </div>
                             </div>
                           )}
