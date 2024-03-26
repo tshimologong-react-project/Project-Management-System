@@ -1,5 +1,6 @@
 package com.algoExpert.demo.Controller;
 
+import com.algoExpert.demo.Dto.AssigneeDto;
 import com.algoExpert.demo.Entity.Assignee;
 import com.algoExpert.demo.Entity.Project;
 import com.algoExpert.demo.Service.AssigneesService;
@@ -16,13 +17,13 @@ public class AssigneeController {
     private AssigneesService assigneesService;
 
 //    assign member to task using their IDs
-    @PostMapping("/saveAssignee/{member_id}/{task_id}")
-    private Assignee saveAssignee(@PathVariable int member_id, @PathVariable int task_id ){
-        return assigneesService.assignTaskToMember(member_id, task_id);
+    @PostMapping("/saveAssignee/{dtoMember_id}/{dtoTask_id}")
+    private AssigneeDto saveAssignee(@PathVariable int dtoMember_id, @PathVariable int dtoTask_id ){
+        return assigneesService.assignTaskToMember(dtoMember_id, dtoTask_id);
     }
 
     @GetMapping("/getAllAssignees")
-    public List<Assignee> getAllAssignees(){
+    public List<AssigneeDto> getAllAssignees(){
         return assigneesService.getAllAssignees();
     }
 }

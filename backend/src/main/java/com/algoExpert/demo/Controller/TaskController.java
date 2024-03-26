@@ -1,5 +1,6 @@
 package com.algoExpert.demo.Controller;
 
+import com.algoExpert.demo.Dto.TaskDto;
 import com.algoExpert.demo.Entity.Project;
 import com.algoExpert.demo.Entity.Table;
 import com.algoExpert.demo.Entity.Task;
@@ -26,7 +27,7 @@ public class TaskController {
 
 //    get all tasks
     @GetMapping("/getAllTask")
-    public List<Task> getAllTask(){
+    public List<TaskDto> getAllTask(){
         return taskService.getAllTask();
     }
 
@@ -36,9 +37,9 @@ public class TaskController {
        return  taskService.deleteTaskById(task_id,table_id);
     }
 
-    @PutMapping("/editTask/{task_id}")
-    public Task editTask(@RequestBody Task task, @PathVariable Integer task_id) throws InvalidArgument{
-        return  taskService.editTask(task,task_id);
+    @PutMapping("/editTask")
+    public TaskDto editTask(@RequestBody TaskDto taskDto) throws InvalidArgument{
+        return  taskService.editTask(taskDto);
     }
 
     @PostMapping("/duplicateTask/{table_id}")
