@@ -47,9 +47,9 @@ public class TableServiceImpl implements TableService {
                 .map(Member::getMember_id)
                 .anyMatch(id->id==member_id);
 
-        // create table
+        // create table if member exist
         if(memberExist){
-            // Ensure that the tables list is initialized properly
+            // initialize tableList if it doesn't exist
             List<Table> tables = project.getTables();
             if (tables == null) {
                 tables = new ArrayList<>();
@@ -58,12 +58,13 @@ public class TableServiceImpl implements TableService {
 
             // Create a new table and task
             int count = tables.size();
-            Table table = new Table(0, "Table " + count, null);
+            Table table = new Table(0, "Table " + (count+1), null);
             Task task = new Task(0, "task", "description", member_id, "", ""
                     , "", "", null);
 
             // Add the table to the project's tables list
             tables.add(table);
+
             // Set the tasks list for the table
             List<Task> taskList = new ArrayList<>();
             taskList.add(task);
