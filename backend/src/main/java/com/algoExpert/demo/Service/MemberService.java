@@ -9,10 +9,10 @@ import java.util.List;
 @Service
 public interface MemberService {
 
-//    Invite member to project
-    Member inviteMember (int project_id , int user_id)throws InvalidArgument;
+    //    Invite member to project
+    Member inviteMember(int project_id, int user_id) throws InvalidArgument;
 
-//    get all members
+    //    get all members
     List<Member> getAllMembers();
 
     //    get member id

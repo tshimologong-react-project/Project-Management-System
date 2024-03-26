@@ -1,5 +1,6 @@
 package com.algoExpert.demo.Service.Impl;
 
+import com.algoExpert.demo.Dto.AssigneeDto;
 import com.algoExpert.demo.Entity.Assignee;
 import com.algoExpert.demo.Entity.Member;
 import com.algoExpert.demo.Entity.Task;
@@ -25,23 +26,32 @@ public class AssigneesServiceImpl implements AssigneesService {
     @Autowired
     private TaskRepository taskRepository;
 
-//	 Assign a task to member
+    //	 Assign a task to member
     @Override
     public Assignee assignTaskToMember(int member_id, int task_id) throws InvalidArgument {
         // check if member and task exist
-        Task storedTask = taskRepository.findById(task_id).orElseThrow(()->
+        Task storedTask = taskRepository.findById(task_id).orElseThrow(() ->
                 new InvalidArgument("Task with ID " + task_id + " not found"));
-        Member member = memberRepository.findById(member_id).orElseThrow(()->
-                new InvalidArgument("Member wth ID "+member_id+" not found"));
+        Member member = memberRepository.findById(member_id).orElseThrow(() ->
+                new InvalidArgument("Member wth ID " + member_id + " not found"));
 
         Assignee assignee = new Assignee(0, member.getMember_id(), storedTask.getTask_id());
 
         return assigneesRepository.save(assignee);
     }
+    /*public AssigneeDto assignTaskToMember(int dtoMember_id, int dtoTask_id){
+		AssigneeDto assigneeDto = new AssigneeDto(0,dtoMember_id,dtoTask_id);
+		Assignee assignee = new Assignee(assigneeDto.getAssignee_id(), assigneeDto.getMember_id(), assigneeDto.getTask_id());
+		Assignee assigneeResult = assigneesRepository.save(assignee);
+		return assigneeMapper.assigneeToAssigneeDto(assigneeResult);
+	}*/
 
-//	get all assignees
+    //	get all assignees
     @Override
-    public List<Assignee> getAllAssignees(){return assigneesRepository.findAll(); }
+    public List<AssigneeDto> getAllAssignees() {
+        List<Assignee> assignees = assigneesRepository.findAll();
+        return assigneeMapper.assigneeDtos(assignees);
+    }
 
 }
 
