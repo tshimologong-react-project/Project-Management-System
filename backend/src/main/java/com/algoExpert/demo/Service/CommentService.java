@@ -1,10 +1,14 @@
 package com.algoExpert.demo.Service;
 
+import com.algoExpert.demo.Dto.CommentDto;
+import com.algoExpert.demo.Dto.TaskDto;
 import com.algoExpert.demo.Entity.Comment;
 import com.algoExpert.demo.Entity.Member;
 import com.algoExpert.demo.Entity.Task;
 import com.algoExpert.demo.Entity.User;
 import com.algoExpert.demo.ExceptionHandler.InvalidArgument;
+import com.algoExpert.demo.Mapper.CommentMapper;
+import com.algoExpert.demo.Mapper.TaskMapper;
 import com.algoExpert.demo.Repository.CommentRepository;
 import com.algoExpert.demo.Repository.MemberRepository;
 import com.algoExpert.demo.Repository.TaskRepository;
@@ -15,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CommentService {
@@ -23,15 +28,18 @@ public class CommentService {
     private CommentRepository commentRepository;
     @Autowired
     private UserRepository userRepository ;
-
     @Autowired
     private TaskRepository taskRepository;
-
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private CommentMapper commentMapper;
+    @Autowired
+    private TaskMapper taskMapper;
 
 //    create comment
-    public Task createComment(Comment comment,int member_id,int task_id)throws InvalidArgument {
+    public TaskDto createComment(CommentDto commentDto, int member_id, int task_id)throws InvalidArgument {
+        Comment comment = commentMapper.commentDtoToComment(commentDto);
         Member findMember = memberRepository.findById(member_id).orElseThrow(() -> new InvalidArgument("Task with ID " + member_id + " not found"));
         Task task = taskRepository.findById(task_id).orElseThrow(() -> new InvalidArgument("Task with ID " + task_id + " not found"));
         User user = userRepository.findById(findMember.getUser_id()).get();
@@ -43,20 +51,25 @@ public class CommentService {
         commentList.add(comment);
 
         task.setComments(commentList);
-
-        return taskRepository.save(task);
+        Task taskResult = taskRepository.save(task);
+        return taskMapper.taskToTaskDto(taskResult);
     }
 
 //    get all comments
-    public List<Comment> getAllComments(){
-    return commentRepository.findAll();
+    public List<CommentDto> getAllComments(){
+    List<Comment> comments = commentRepository.findAll();
+    return commentMapper.commentDtos(comments);
 }
 
 // update comment by id
-    public Comment editComment(int commentId,Comment newComment){
-        return commentRepository.findById(commentId)
-                .map(oldComment -> {oldComment.setCommentBody(newComment.getCommentBody());
-                return commentRepository.save(oldComment);}).orElseThrow();
+    public CommentDto editComment(int commentId,CommentDto newCommentDto) throws InvalidArgument{
+        Comment comment= commentRepository.findById(commentId)
+                .map(oldComment -> {
+                    if(newCommentDto != null){
+                        Optional.ofNullable(newCommentDto.getCommentBody()).ifPresent(oldComment::setCommentBody);
+                    }
+                return commentRepository.save(oldComment);}).orElseThrow(()-> new InvalidArgument("Comment ID "+commentId+" not fount"));
+        return commentMapper.commentToCommentDto(comment);
     }
 
 //    delete comment by id

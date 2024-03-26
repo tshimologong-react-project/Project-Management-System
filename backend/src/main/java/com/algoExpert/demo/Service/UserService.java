@@ -1,6 +1,8 @@
 package com.algoExpert.demo.Service;
 
+import com.algoExpert.demo.Dto.UserDto;
 import com.algoExpert.demo.Entity.*;
+import com.algoExpert.demo.Mapper.UserMapper;
 import com.algoExpert.demo.Repository.MemberRepository;
 import com.algoExpert.demo.Repository.ProjectRepository;
 import com.algoExpert.demo.Repository.UserRepository;
@@ -22,20 +24,29 @@ public class UserService {
     @Autowired
     private ProjectRepository projectRepository;
 
+    @Autowired
+    UserMapper userMapper;
+
 //    create user
-    public User create(User user){
-        return userRepository.save(user);
+    public UserDto create(UserDto userDto){
+        User user = userMapper.userDtoToUser(userDto);
+        User userResults = userRepository.save(user);
+        return userMapper.userToUserDto(userResults);
     }
 
 // get all users
-    public List<User> getUsers(){
-        return userRepository.findAll();
+    public List<UserDto> getUsers(){
+        List<User> users = userRepository.findAll();
+        return userMapper.usersToUserDtos(users);
     }
 
 //    delete user by id
-    public List<User> deleteUser(int userId){
+    public List<UserDto> deleteUser(int userId){
         userRepository.deleteById(userId);
-        return userRepository.findAll();
+        return userRepository.findAll()
+                .stream().map(user -> new UserDto(user.getUser_id(),
+                        user.getUsername(),
+                        user.getEmail())).collect(Collectors.toList());
     }
 
 
