@@ -6,13 +6,13 @@ import com.algoExpert.demo.Repository.MemberRepository;
 import com.algoExpert.demo.Repository.ProjectRepository;
 import com.algoExpert.demo.Repository.TableRepository;
 import com.algoExpert.demo.Repository.UserRepository;
+import com.algoExpert.demo.Service.MemberService;
 import com.algoExpert.demo.Service.ProjectService;
 import com.algoExpert.demo.Service.TableService;
 import com.algoExpert.demo.Service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +37,9 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private TableService tableService;
 
+    @Autowired
+    private MemberService memberService;
+
     //  create project
     @Override
     public Integer createProject(Project project, int user_id) throws InvalidArgument {
@@ -48,19 +51,11 @@ public class ProjectServiceImpl implements ProjectService {
         // Save the project and retrieve the saved instance
         Project savedProject = projectRepository.save(project);
 
-        // Initialize the members list if it's null
-        List<Member> members = savedProject.getMemberList();
-        if (members == null) {
-            members = new ArrayList<>();
-        }
+        // save member
+        Member newMember = memberService.inviteMember(savedProject.getProject_id(),user.getUser_id());
 
-        // Add owner to the project as a member
-        Member newMember = new Member(0, user.getUser_id(), savedProject.getProject_id(), null);
-        members.add(newMember);
-        savedProject.setMemberList(members);
-
-        // Create a default table
-        tableService.createTable(savedProject.getProject_id(), user.getUser_id());
+        // Create a default table using new member id
+        tableService.createTable(savedProject.getProject_id(), newMember.getMember_id());
 
         // Save the updated project with the added member
         savedProject = projectRepository.save(savedProject);
