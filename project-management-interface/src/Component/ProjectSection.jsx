@@ -286,8 +286,8 @@ function ProjectSection() {
                                     <div className='field_name table-task text_task'>{task.owner}</div>
                                     <div className='assignee field_name table-task text_task'>
                                             {task.assignees.length > 0 ? 
-                                                task.assignees.map(taskAssignee => 
-                                                    <span className='task_assign_letter' >{taskAssignee.username.charAt(0)}</span>
+                                                task.assignees.map((taskAssignee,i) => 
+                                                    <span key={i} className='task_assign_letter' >{taskAssignee.username.charAt(0)}</span>
                                                 ) : <span>invite</span>}    
                                             <i className="lni lni-circle-plus" onClick={()=>openAssignModel(task.assignees,task.task_id)}></i>
                                     </div>

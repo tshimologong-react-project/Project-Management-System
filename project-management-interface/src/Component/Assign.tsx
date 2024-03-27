@@ -1,7 +1,7 @@
 import React from 'react'
 import axios from 'axios';
 
-function Assign(props: any) {
+function Assign(props) {
   const assignTask =async (memebrId) => {
     try {
       const response = await axios.post(`http://localhost:8080/assignee/saveAssignee/${memebrId}/
@@ -22,8 +22,8 @@ function Assign(props: any) {
             <h6>Task members</h6>
             {
               props.taskMembers ?
-                props.taskMembers.map(member =>
-              <div className="task_member_name">
+                props.taskMembers.map((member,i) =>
+              <div key={i} className="task_member_name">
                 <span className='assignee_letters'>M</span>
                 <div className='assignee_details'>
                   <span>{member.username}</span>
@@ -34,8 +34,8 @@ function Assign(props: any) {
           </div>
           <div className="project_members_list">
             <h6>Project members list: </h6>
-            {props.projectPeople.map(member =>
-               <div className="project_members_names" onClick={()=>assignTask(member.member_id)}>
+            {props.projectPeople.map((member,i ) =>
+               <div key={i} className="project_members_names" onClick={()=>assignTask(member.member_id)}>
                   <div className="task_project_names_details">
                       <i className="lni lni-user" ></i>
                       <p>
