@@ -202,7 +202,6 @@
     margin-right: 6px;
     font-size: 16px;
 }
-
 .edit-table{
     display: flex;
     align-items: center;
@@ -304,6 +303,7 @@
     font-size: 12px;
     line-height: 25px;
     text-transform: uppercase;
+    display: inline-block;
     color: var(--blue-color);
     border: 2px solid #fff;
     background-color: var(--light-background-color);

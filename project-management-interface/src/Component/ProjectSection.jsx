@@ -16,7 +16,7 @@ function ProjectSection() {
         {
             statusBox: 0, addColumn: 0, columnIndex: 0, editRow: 0, inviteBox: 0,
             filterBox: 0, sort: 0, rowId: 0, statusIndex: 0, table: 0, tableIndex: 0,
-            commentBox: 0, commentTaskId:0, assigneeHieght: 0
+            commentBox: 0, commentTaskId:0, assigneeHieght: 0, assigneeId:0
         }
     );
 
@@ -150,15 +150,18 @@ function ProjectSection() {
         settaskComments(comments)
         toogleDropDownBoxes('commentBox',100,taskid,'commentTaskId')
     }
-    const openAssignModel = (assignList) => {
-        setassignees(assignList)
-        toogleDropDownBoxes("assigneeHieght",100,0,'')
+    const openAssignModel = (assignList,taskId) => {
+        setassignees([])
+        if (assignList.length > 0) {
+            setassignees(assignList)
+        }
+        toogleDropDownBoxes("assigneeHieght",100,taskId,'assigneeId')
     }
      
   return (
     <>
         <div className="project-section">
-              <Assign closeMode={toogleDropDownBoxes} taskMembers={assignees} projectPeople={oneProject.membersList} assignModel={dropDownBoxesHeight.assigneeHieght} />  
+              <Assign closeMode={toogleDropDownBoxes} taskMembers={assignees} projectPeople={oneProject.membersList} assignModel={dropDownBoxesHeight} />  
               <div className="container">
                 <Comment commentMember={loginMemberId} closeComment={toogleDropDownBoxes} dropDownValue={dropDownBoxesHeight} commentList={taskComments} />
                 <h6 className='page-section-header'>{oneProject.title}</h6>
@@ -283,10 +286,10 @@ function ProjectSection() {
                                     <div className='field_name table-task text_task'>{task.owner}</div>
                                     <div className='assignee field_name table-task text_task'>
                                             {task.assignees.length > 0 ? 
-                                                task.assignees.map(taskAssignee => 
-                                                    <span className='task_assign_letter' >{taskAssignee.username.charAt(0)}</span>
+                                                task.assignees.map((taskAssignee,i) => 
+                                                    <span key={i} className='task_assign_letter' >{taskAssignee.username.charAt(0)}</span>
                                                 ) : <span>invite</span>}    
-                                            <i className="lni lni-circle-plus" onClick={()=>openAssignModel(assignees)}></i>
+                                            <i className="lni lni-circle-plus" onClick={()=>openAssignModel(task.assignees,task.task_id)}></i>
                                     </div>
                                         <div className='field_name table-task'><input onBlur={(e) => sendEditedRow(task, e.target.value, '')}
                                             onChange={(e) => rowUpdate('start_date', e.target.

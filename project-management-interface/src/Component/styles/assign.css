@@ -24,10 +24,11 @@
 }
 .assign_container{
     width: 30%;
-    height: 70%;
+    height: 60%;
     background-color: #fff;
     padding: 30px;
     position: relative;
+    overflow-y: scroll;
 }
 .assign_container .lni-close{
     position: absolute;
